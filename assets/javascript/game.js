@@ -42,9 +42,9 @@ function restartLeft() {
     document.querySelector("#left").innerHTML = "Guesses Left: " + 10;
 }
 
-// updates # of guesses user has had so far
+// updates user listing letters guessed so far
 function updateSoFar() {
-    document.querySelector("#so-far").innerHTML = "Your Guesses so far: " + guessesSoFar;
+   document.querySelector("#so-far").innerHTML = "Your Guesses so far: " + guessesSoFar;
 }
 
 // updates letter chosen by computer
@@ -63,6 +63,7 @@ restartLeft();
 updateLetter();
 updateSoFar();
 
+
 // pressing a key
 document.onkeypress = function (event) {
     var userGuess = event.key;
@@ -74,30 +75,30 @@ document.onkeypress = function (event) {
         guessesSoFar++;
         updateLetter();
         console.log(computerChoice);
-        // return;
+        return;
     }
+   
+    
     else {
         guessesLeft--;
         guessesSoFar++;
-        // updateSoFar();
         console.log(computerChoice);
 
         if (guessesLeft < 1) {
             losses++;
             updateLosses();
             restartLeft();
-            // return;
+            location.reload;
+            
         }
+        
     }
 
-   
+
     // if it does not match computer's choice, guessesLeft will decrease by 1
     if (userGuess !== computerChoice) {
-        // guessesLeft--;
         updateLeft();
-        // guessesSoFar++;
         updateSoFar();
-        // console.log(computerChoice);
         // if # of guesses remaining reaches zero, then losses increases by one
         if (guessesLeft < 1) {
             // losses++;
@@ -105,29 +106,9 @@ document.onkeypress = function (event) {
             restartLeft();
             return;
         }
-
-        // if (guessesLeft === 10) {
-        //     losses++;
-        //     updateLosses();
-        // }
-        return;
     }
-    // if (guessesLeft === 0) {
-    //     document.querySelector("#losses").innerHTML = "Losses: " + losses;
-    //     losses++;
-    //     updateLosses();
-    //     document.querySelector("#so-far").innerHTML = "Your Guesses so far: " + guessesSoFar;
-    //     guessesSoFar++;
-    //     updateLetter();
-    // }
-    // else if (guessesLeft < 1) {
-    //     alert("You lost!");
-    //     location.reload();
-    //     updateLetter();
-    //     guessesSoFar++;
-    //     updateSoFar();
+    return;
 
-    // }
 
 
 };
