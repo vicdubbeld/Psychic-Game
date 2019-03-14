@@ -5,7 +5,7 @@
 var wins = 0;
 var losses = 0;
 var guessesLeft = 10;
-var guessesSoFar = 0;
+var guessesSoFar = [];
 
 // alphabet array (there has to be an easier way)
 var alphabet = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l',
@@ -39,7 +39,7 @@ function updateLeft() {
 
 // restarts # of guesses remaining in round before taking a loss of a point
 function restartLeft() {
-    document.querySelector("#left").innerHTML = "Guesses Left: " + 10;
+    document.querySelector("#left").innerHTML = "Guesses Left: " + guessesLeft;
 }
 
 // updates user listing letters guessed so far
@@ -51,6 +51,11 @@ function updateSoFar() {
 function updateLetter() {
     computerChoice = alphabet[Math.floor(Math.random() * alphabet.length)];
 }
+
+function resetGuesses () {
+    guessesSoFar = [];
+}
+
 
 // Process
 //==========================================================================
@@ -65,14 +70,15 @@ updateSoFar();
 
 
 // pressing a key
-document.onkeypress = function (event) {
-    var userGuess = event.key;
+document.onkeypress = function(event) { var guess = event.key.toLocaleLowerCase();
+    guessesSoFar.push(guess);
+    // var userGuess = event.key;
 
     // if it matches the computer's choice, wins will increase wins by 1
-    if (userGuess === computerChoice) {
+    if (guess === computerChoice) {
         wins++;
         updateWins();
-        guessesSoFar++;
+        
         updateLetter();
         console.log(computerChoice);
         return;
@@ -81,14 +87,16 @@ document.onkeypress = function (event) {
     
     else {
         guessesLeft--;
-        guessesSoFar++;
+        
         console.log(computerChoice);
 
         if (guessesLeft < 1) {
             losses++;
+            guessesLeft = 10;
             updateLosses();
             restartLeft();
-            location.reload;
+
+            
             
         }
         
@@ -96,14 +104,16 @@ document.onkeypress = function (event) {
 
 
     // if it does not match computer's choice, guessesLeft will decrease by 1
-    if (userGuess !== computerChoice) {
+    if (guess !== computerChoice) {
         updateLeft();
         updateSoFar();
+        
         // if # of guesses remaining reaches zero, then losses increases by one
         if (guessesLeft < 1) {
             // losses++;
             updateLetter();
             restartLeft();
+            resetGuesses();
             return;
         }
     }
